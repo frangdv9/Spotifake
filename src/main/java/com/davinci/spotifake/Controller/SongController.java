@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/songs")
@@ -37,8 +38,8 @@ public class SongController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Song> searchSongById(@PathVariable int id) {
-        Song foundSong = songService.findSongById(id);
-        return foundSong != null ? new ResponseEntity<>(foundSong, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<Song> foundSong = songService.findSongById(id);
+        return foundSong != null ? new ResponseEntity<>(foundSong.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/find/songName/{name}")
