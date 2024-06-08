@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
     List<Song> findByName(String name);
-    List<Song> findByLyricsContaining(String lyrics);
+    List<Song> findByLyrics(String lyrics);
+
+    void update(Song song);
 }

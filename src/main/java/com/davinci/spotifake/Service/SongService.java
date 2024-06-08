@@ -1,12 +1,14 @@
 package com.davinci.spotifake.Service;
 
 import com.davinci.spotifake.Model.Genre;
-import org.springframework.stereotype.Service;
 import com.davinci.spotifake.Model.Song;
+import com.davinci.spotifake.Repository.SongRepository;
+import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SongService {
@@ -22,8 +24,8 @@ public class SongService {
         this.repository = null;
     }
 
-    public Song createSong(int id, String name, Genre genre, String lyrics) {
-        Song song = new Song(id, name, genre, lyrics);
+    public Song createSong(long id, String name, Genre genre, String lyrics) {
+        Song song = new Song(id, name, lyrics, genre);
         return repository.save(song);
     }
 
@@ -31,7 +33,8 @@ public class SongService {
         repository.update(song);
     }
 
-    public Song findSongById(int id) {
+    public Optional<Song> findSongById(long id) {
+        assert repository != null;
         return repository.findById(id);
     }
 
