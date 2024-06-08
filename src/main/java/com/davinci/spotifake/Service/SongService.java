@@ -25,14 +25,14 @@ public class SongService {
         this.repository = null;
     }
 
-    public Song createSong(long id, String name, Genre genre, String lyrics) {
-        Song song = new Song(id, name, lyrics, genre);
+    public Song createSong(String name, Genre genre, String lyrics) {
+        Song song = new Song(name, lyrics, genre);
         assert repository != null;
         return repository.save(song);
     }
 
     public void updateSong(Song song) {
-        repository.update(song);
+        repository.save(song);
     }
 
     public Optional<Song> findSongById(long id) {
