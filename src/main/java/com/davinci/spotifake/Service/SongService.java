@@ -1,16 +1,28 @@
 package com.davinci.spotifake.Service;
 
+import com.davinci.spotifake.Model.Genre;
+import org.springframework.stereotype.Service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
 public class SongService {
-    private SongRepository repository;
+    private final SongRepository repository;
 
-
+    @Autowired
     public SongService(SongRepository repository) {
         this.repository = repository;
     }
 
-    public void createSong(int id, String name, Genre genre, String lyrics) {
+    public SongService() {
+        this.repository = null;
+    }
+
+    public Song createSong(int id, String name, Genre genre, String lyrics) {
         Song song = new Song(id, name, genre, lyrics);
-        repository.create(song);
+        return repository.save(song);
     }
 
     public void updateSong(Song song) {
