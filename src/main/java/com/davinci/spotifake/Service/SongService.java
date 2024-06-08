@@ -1,10 +1,9 @@
 package com.davinci.spotifake.Service;
 
 import com.davinci.spotifake.Model.Genre;
-import com.davinci.spotifake.Model.Song;
-import com.davinci.spotifake.Repository.SongRepository;
 import org.springframework.stereotype.Service;
 import com.davinci.spotifake.Model.Song;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
