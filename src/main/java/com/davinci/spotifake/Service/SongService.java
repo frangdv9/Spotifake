@@ -9,9 +9,10 @@ import java.util.List;
 
 @Service
 public class SongService {
+    @Autowired
     private final SongRepository repository;
 
-    @Autowired
+
     public SongService(SongRepository repository) {
         this.repository = repository;
     }
