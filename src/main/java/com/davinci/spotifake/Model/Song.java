@@ -1,7 +1,15 @@
 package com.davinci.spotifake.Model;
 
-public class Song {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "songs")
+public class Song {
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String name;
@@ -12,6 +20,12 @@ public class Song {
 
     public Song(){
 
+    }
+
+    public Song(String name, String lyrics, Genre genre) {
+        this.name = name;
+        this.lyrics = lyrics;
+        this.genre = genre;
     }
 
     public Song(Long id, String name, String lyrics, Genre genre) {
@@ -45,8 +59,8 @@ public class Song {
         this.lyrics = lyrics;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public void setGender(Genre genre) {
