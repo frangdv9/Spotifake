@@ -1,12 +1,15 @@
 package com.davinci.spotifake.Controller;
 
 import com.davinci.spotifake.Model.Genre;
+import com.davinci.spotifake.Model.Song;
+
 import com.davinci.spotifake.Service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
