@@ -27,6 +27,7 @@ public class SongService {
 
     public Song createSong(long id, String name, Genre genre, String lyrics) {
         Song song = new Song(id, name, lyrics, genre);
+        assert repository != null;
         return repository.save(song);
     }
 
