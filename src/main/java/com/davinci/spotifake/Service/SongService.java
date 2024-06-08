@@ -32,6 +32,7 @@ public class SongService {
     }
 
     public void updateSong(Song song) {
+        assert repository != null;
         repository.save(song);
     }
 
@@ -41,10 +42,12 @@ public class SongService {
     }
 
     public List<Song> findSongsByName(String name) {
+        assert repository != null;
         return repository.findByName(name);
     }
 
     public List<Song> findSongsByLyrics(String lyrics) {
+        assert repository != null;
         return repository.findByLyrics(lyrics);
     }
 }
