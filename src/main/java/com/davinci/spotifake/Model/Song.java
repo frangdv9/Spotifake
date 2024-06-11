@@ -1,15 +1,13 @@
 package com.davinci.spotifake.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "songs")
+@Table(name = "song")
 public class Song {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "song_seq_gen", sequenceName = "SONGS_SEQ", allocationSize = 1)
     private Long id;
 
     private String name;
