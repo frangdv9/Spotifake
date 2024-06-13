@@ -24,6 +24,9 @@ public class SongService {
     }
 
     public Song createSong(SongDTO newSong) {
+        if (newSong == null) {
+            throw new IllegalArgumentException("La canción proporcionada no puede ser nula.");
+        }
         if (newSong.getLyrics() == null || newSong.getName() == null || newSong.getGenre() == null) {
             throw new IllegalArgumentException("Los campos lyrics, name y genre son requeridos.");
         }
@@ -31,6 +34,10 @@ public class SongService {
             Genre.valueOf(newSong.getGenre().toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("El género proporcionado no es válido.");
+        }
+        List<Song> existingSongs = repository.findByName(newSong.getName());
+        if (!existingSongs.isEmpty()) {
+            throw new IllegalArgumentException("Ya existe una canción con el mismo nombre.");
         }
         Song song = new Song();
         song.setLyrics(newSong.getLyrics());
@@ -43,6 +50,9 @@ public class SongService {
     public void updateSong(Song song) {
         if (song == null) {
             throw new IllegalArgumentException("La canción proporcionada no puede ser nula.");
+        }
+        if (!repository.existsById(song.getId())) {
+            throw new IllegalArgumentException("La canción a actualizar no existe en la base de datos.");
         }
 
         repository.save(song);
