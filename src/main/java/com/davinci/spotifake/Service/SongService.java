@@ -27,27 +27,27 @@ public class SongService {
 
     public Song createSong(String name, Genre genre, String lyrics) {
         Song song = new Song(name, lyrics, genre);
-        assert repository != null;
+
         return repository.save(song);
     }
 
     public void updateSong(Song song) {
-        assert repository != null;
+
         repository.save(song);
     }
 
     public Optional<Song> findSongById(long id) {
-        assert repository != null;
+
         return repository.findById(id);
     }
 
     public List<Song> findSongsByName(String name) {
-        assert repository != null;
+
         return repository.findByName(name);
     }
 
     public List<Song> findSongsByLyrics(String lyrics) {
-        assert repository != null;
+
         return repository.findByLyrics(lyrics);
     }
 }
