@@ -1,5 +1,6 @@
 package com.davinci.spotifake.Controller;
 
+import com.davinci.spotifake.Model.DTOs.SongDTO;
 import com.davinci.spotifake.Model.Genre;
 import com.davinci.spotifake.Model.Song;
 
@@ -22,42 +23,34 @@ public class SongController {
 
     @PostMapping("/create")
     public ResponseEntity<Song> createSong(@RequestBody Map<String, Object> requestBody) {
-        String name;
-        String lyrics;
-        Genre genre;
-        try {
-            name = requestBody.get("name").toString();
-            lyrics = requestBody.get("lyrics").toString();
-            genre = Genre.valueOf(requestBody.get("genre").toString().toUpperCase());
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        Song createdSong = songService.createSong(name, genre, lyrics);
+        String name = requestBody.get("name").toString();
+        String lyrics = requestBody.get("lyrics").toString();
+        String genre = requestBody.get("genre").toString().toUpperCase();
+
+        Song createdSong = songService.createSong(new SongDTO(name,lyrics,genre));
+
         return new ResponseEntity<>(createdSong, HttpStatus.CREATED);
     }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Song> searchSongById(@PathVariable int id) {
         Optional<Song> foundSong = songService.findSongById(id);
-        return foundSong != null ? new ResponseEntity<>(foundSong.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return foundSong.isPresent() ? new ResponseEntity<>(foundSong.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/find/songName/{name}")
     public ResponseEntity<List<Song>> searchSongByName(@PathVariable String name) {
         List<Song> foundSongs = songService.findSongsByName(name);
+
         return !foundSongs.isEmpty() ? new ResponseEntity<>(foundSongs, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/find/lyrics")
-    public ResponseEntity<List<Song>> findSongsByLyrics(@RequestBody Map<String, Object> requestBody) {
-        String lyrics;
-        try {
-            lyrics = requestBody.get("lyrics").toString();
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/find/lyrics")
+    public ResponseEntity<List<Song>> findSongsByLyrics(@RequestParam("lyrics") String lyrics) {
         List<Song> foundSongs = songService.findSongsByLyrics(lyrics);
+
         return !foundSongs.isEmpty() ? new ResponseEntity<>(foundSongs, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 
 }
