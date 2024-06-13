@@ -27,9 +27,14 @@ public class SongController {
         String lyrics = requestBody.get("lyrics").toString();
         String genre = requestBody.get("genre").toString().toUpperCase();
 
-        Song createdSong = songService.createSong(new SongDTO(name,lyrics,genre));
+        try {
+            Song createdSong = songService.createSong(new SongDTO(name,lyrics,genre));
+            return new ResponseEntity<>(createdSong, HttpStatus.CREATED);
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(createdSong, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/find/{id}")
