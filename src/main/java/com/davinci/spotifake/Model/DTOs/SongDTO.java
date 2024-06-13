@@ -44,8 +44,12 @@ public class SongDTO {
         this.genre = genre;
     }
 
-    public void setGender(String genre) {
-        this.genre = genre;
+    public String getGenre() {
+        return genre;
     }
-}
+
+    }
+
+
+
 
