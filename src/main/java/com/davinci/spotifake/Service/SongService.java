@@ -61,7 +61,7 @@ public class SongService {
             throw new IllegalArgumentException("El nombre de la canción no puede ser nulo o vacío.");
         }
 
-        return repository.findByName(name);
+        return repository.findByNameIgnoreCase(name);
     }
 
     public List<Song> findSongsByLyrics(String lyrics) {
@@ -69,6 +69,6 @@ public class SongService {
             throw new IllegalArgumentException("Las letras de la canción no pueden ser nulas o vacías.");
         }
 
-        return repository.findByLyrics(lyrics);
+        return repository.findByLyricsContainingIgnoreCase(lyrics);
     }
 }
