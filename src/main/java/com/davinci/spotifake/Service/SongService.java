@@ -35,7 +35,7 @@ public class SongService {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("El género proporcionado no es válido.");
         }
-        List<Song> existingSongs = repository.findByName(newSong.getName());
+        List<Song> existingSongs = repository.findByNameIgnoreCase(newSong.getName());
         if (!existingSongs.isEmpty()) {
             throw new IllegalArgumentException("Ya existe una canción con el mismo nombre.");
         }
