@@ -19,3 +19,12 @@ CREATE TABLE IF NOT EXISTS artist (
     instrument VARCHAR(255),
     biography TEXT
 );
+
+CREATE TABLE artist_disk (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_artist INT,
+    id_disk INT,
+    FOREIGN KEY (id_artist) REFERENCES artist(id),
+    FOREIGN KEY (id_disk) REFERENCES disk(id)
+);
+
