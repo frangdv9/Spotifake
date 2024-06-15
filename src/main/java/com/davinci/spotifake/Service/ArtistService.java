@@ -1,4 +1,5 @@
 package com.davinci.spotifake.Service;
+
 import com.davinci.spotifake.Model.Artist;
 import com.davinci.spotifake.Model.Genre;
 import com.davinci.spotifake.Model.Instrument;
@@ -8,14 +9,16 @@ import com.davinci.spotifake.Service.ErrorHandler.ExceptionSpotifake;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ArtistService {
-    @Autowired
+
     private final ArtistRepository repository;
 
+    @Autowired
     public ArtistService(ArtistRepository repository) {
         this.repository = repository;
     }
@@ -46,15 +49,18 @@ public class ArtistService {
         return repository.findAll();
     }
 
-    public List<Artist> findArtistsByGenre(Genre genre) {
+    public List<Artist> findArtistsByGenre(String genreStr) throws BadRequestException {
+        Genre genre = parseGenre(genreStr);
         return repository.findByGenre(genre);
     }
 
-    public List<Artist> findArtistsByNationality(Nationality nationality) {
+    public List<Artist> findArtistsByNationality(String nationalityStr) throws BadRequestException {
+        Nationality nationality = parseNationality(nationalityStr);
         return repository.findByNationality(nationality);
     }
 
-    public List<Artist> findArtistsByInstrument(Instrument instrument) {
+    public List<Artist> findArtistsByInstrument(String instrumentStr) throws BadRequestException {
+        Instrument instrument = parseInstrument(instrumentStr);
         return repository.findByInstrument(instrument);
     }
 
@@ -68,6 +74,30 @@ public class ArtistService {
 
     public List<Artist> findDeceasedArtists() {
         return repository.findDeceasedArtists();
+    }
+
+    private Genre parseGenre(String genreStr) throws BadRequestException {
+        try {
+            return Genre.valueOf(genreStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("El género proporcionado no es válido.");
+        }
+    }
+
+    private Nationality parseNationality(String nationalityStr) throws BadRequestException {
+        try {
+            return Nationality.valueOf(nationalityStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("La nacionalidad proporcionada no es válida.");
+        }
+    }
+
+    private Instrument parseInstrument(String instrumentStr) throws BadRequestException {
+        try {
+            return Instrument.valueOf(instrumentStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("El instrumento proporcionado no es válido.");
+        }
     }
 
     private void validateArtist(Artist artist) throws Exception {
