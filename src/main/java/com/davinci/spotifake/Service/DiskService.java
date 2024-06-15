@@ -26,10 +26,10 @@ public class DiskService {
         if (newDisk == null || newDisk.getName() == null || newDisk.getReleaseDate() == null || newDisk.getGenre() == null) {
             throw new BadRequestException("Los campos nombre, fecha de lanzamiento y géneros son requeridos.");
         }
+        Genre genre;
         try {
-            for (String genre : newDisk.getGenre()) {
-                Genre.valueOf(genre.toUpperCase());
-            }
+            genre = Genre.valueOf(newDisk.getGenre().toUpperCase());
+
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Uno o más géneros proporcionados no son válidos.");
         }
@@ -40,7 +40,7 @@ public class DiskService {
         Disk disk = new Disk();
         disk.setName(newDisk.getName());
         disk.setReleaseDate(newDisk.getReleaseDate());
-        disk.setGenre(newDisk.getGenre());
+        disk.setGenre(genre);
 
         return repository.save(disk);
     }

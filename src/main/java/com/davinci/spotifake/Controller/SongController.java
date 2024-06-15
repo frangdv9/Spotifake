@@ -30,7 +30,7 @@ public class SongController {
         try {
             Song createdSong = songService.createSong(new SongDTO(name,lyrics,genre));
             return new ResponseEntity<>(createdSong, HttpStatus.CREATED);
-        }catch (IllegalArgumentException e){
+        }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -38,20 +38,20 @@ public class SongController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Song> searchSongById(@PathVariable int id) {
+    public ResponseEntity<Song> searchSongById(@PathVariable int id) throws Exception {
         Optional<Song> foundSong = songService.findSongById(id);
         return foundSong.isPresent() ? new ResponseEntity<>(foundSong.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/find/songName/{name}")
-    public ResponseEntity<List<Song>> searchSongByName(@PathVariable String name) {
+    public ResponseEntity<List<Song>> searchSongByName(@PathVariable String name) throws Exception {
         List<Song> foundSongs = songService.findSongsByName(name);
 
         return !foundSongs.isEmpty() ? new ResponseEntity<>(foundSongs, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/find/lyrics")
-    public ResponseEntity<List<Song>> findSongsByLyrics(@RequestParam("lyrics") String lyrics) {
+    public ResponseEntity<List<Song>> findSongsByLyrics(@RequestParam("lyrics") String lyrics) throws Exception {
         List<Song> foundSongs = songService.findSongsByLyrics(lyrics);
 
         return !foundSongs.isEmpty() ? new ResponseEntity<>(foundSongs, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
