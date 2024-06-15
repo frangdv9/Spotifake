@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS artist (
     genre VARCHAR(255) NOT NULL,
     nationality VARCHAR(255) NOT NULL,
     birthDate DATE,
+    deathDate DATE,
     instrument VARCHAR(255),
     biography TEXT
 );
