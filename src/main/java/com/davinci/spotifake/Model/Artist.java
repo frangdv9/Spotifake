@@ -33,8 +33,9 @@ public class Artist {
 
     }
 
-    public Artist(Long id, Genre genre, Nationality nationality, Date birthDate, Date deathDate, Instrument instrument, String biography, List<Disk> disks) {
+    public Artist(Long id,String name, Genre genre, Nationality nationality, Date birthDate, Date deathDate, Instrument instrument, String biography, List<Disk> disks) {
         this.id = id;
+        this.name = name;
         this.genre = genre;
         this.nationality = nationality;
         this.birthDate = birthDate;
@@ -42,6 +43,14 @@ public class Artist {
         this.instrument = instrument;
         this.biography = biography;
         this.disks = disks;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
