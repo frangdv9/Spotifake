@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ArtistDTO {
 
+    private String name;
     private String genre;
     private String nationality;
     private String birthDate;
@@ -24,14 +25,22 @@ public class ArtistDTO {
 
     }
 
-    public ArtistDTO(String genre, String nationality, String birthDate, String deathDate, String instrument, String biography, List<DiskDTO> disks) {
+    public ArtistDTO(String name, String genre, String nationality, String birthDate, String deathDate, String instrument, String biography) {
+        this.name = name;
         this.genre = genre;
         this.nationality = nationality;
         this.birthDate = birthDate;
         this.deathDate = deathDate;
         this.instrument = instrument;
         this.biography = biography;
-        this.disks = disks;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGenre() {
