@@ -16,9 +16,7 @@ public class Song {
 
     private Genre genre;
 
-    public Song(){
-
-    }
+    public Song(){}
 
     public Song(String name, String lyrics, Genre genre) {
         this.name = name;
