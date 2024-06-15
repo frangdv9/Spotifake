@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class ArtistService {
+    @Autowired
     private final ArtistRepository repository;
 
     public ArtistService(ArtistRepository repository) {

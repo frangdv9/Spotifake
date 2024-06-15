@@ -1,38 +1,30 @@
-package com.davinci.spotifake.Model;
+package com.davinci.spotifake.Model.DTOs;
 
-import jakarta.persistence.*;
+import com.davinci.spotifake.Model.Disk;
+import com.davinci.spotifake.Model.Genre;
+import com.davinci.spotifake.Model.Instrument;
+import com.davinci.spotifake.Model.Nationality;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "artist")
-public class Artist {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ArtistDTO {
 
     private Genre genre;
-
     private Nationality nationality;
-
     private Date birthDate;
-
     private Date deathDate;
-
     private Instrument instrument;
-
     private String biography;
-    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     private List<Disk> disks;
 
-    public Artist() {
+    ArtistDTO(){
 
     }
 
-    public Artist(Long id, Genre genre, Nationality nationality, Date birthDate, Date deathDate, Instrument instrument, String biography, List<Disk> disks) {
-        this.id = id;
+    public ArtistDTO(Genre genre, Nationality nationality, Date birthDate, Date deathDate, Instrument instrument, String biography, List<Disk> disks) {
         this.genre = genre;
         this.nationality = nationality;
         this.birthDate = birthDate;
@@ -40,14 +32,6 @@ public class Artist {
         this.instrument = instrument;
         this.biography = biography;
         this.disks = disks;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Genre getGenre() {
@@ -74,6 +58,14 @@ public class Artist {
         this.birthDate = birthDate;
     }
 
+    public Date getDeathDate() {
+        return deathDate;
+    }
+
+    public void setDeathDate(Date deathDate) {
+        this.deathDate = deathDate;
+    }
+
     public Instrument getInstrument() {
         return instrument;
     }
@@ -96,12 +88,5 @@ public class Artist {
 
     public void setDisks(List<Disk> disks) {
         this.disks = disks;
-    }
-
-    public Date getDeathDate() {
-        return deathDate;
-    }
-    public void setDeathDate(Date deathDate) {
-        this.deathDate = deathDate;
     }
 }
