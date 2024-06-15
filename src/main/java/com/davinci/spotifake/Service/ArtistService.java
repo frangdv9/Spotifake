@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,10 +66,17 @@ public class ArtistService {
     }
 
     public List<Artist> findArtistsByInstrument(List<String> instrumentStrs) throws BadRequestException {
-        List<Instrument> instruments = instrumentStrs.stream()
-                .map(this::parseInstrument)
-                .collect(Collectors.toList());
-        return repository.findByInstrumentIn(instruments);
+        Set<Artist> artistSet = new HashSet<>();
+
+        for (String instrumentStr : instrumentStrs) {
+            Instrument instrument = parseInstrument(instrumentStr);
+            List<Artist> artists = repository.findByInstrument(instrument);
+
+            artistSet.addAll(artists);
+        }
+
+        List<Artist> artists = new ArrayList<>(artistSet);
+        return artists;
     }
 
     public List<Artist> findArtistsByNumSongs(int numSongs) {
@@ -151,5 +157,22 @@ public class ArtistService {
         } catch (ParseException e) {
             throw new BadRequestException("La fecha proporcionada no es válida.");
         }
+    }
+    public List<Artist> findArtistsByAge(int age) {
+        LocalDate today = LocalDate.now();
+        LocalDate birthDateLimit = today.minusYears(age);
+
+        List<Artist> allArtists = repository.findAll();
+        List<Artist> artistsByAge = new ArrayList<>();
+
+        for (Artist artist : allArtists) {
+            LocalDate artistBirthDate = artist.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (artistBirthDate.isBefore(birthDateLimit) || artistBirthDate.equals(birthDateLimit)) {
+                artistsByAge.add(artist);
+            }
+        }
+
+        return artistsByAge;
     }
 }
