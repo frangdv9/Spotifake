@@ -19,6 +19,9 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     List<Artist> findByNationality(Nationality nationality);
     List<Artist> findByInstrument(Instrument instrument);
 
+    @Query("SELECT DISTINCT a FROM Artist a WHERE a.instrument = :instrumentName")
+    List<Artist> findByInstrumentName(@Param("instrumentName") String instrumentName);
+
     @Query("SELECT a FROM Artist a WHERE size(a.disks) = :numSongs")
     List<Artist> findByNumSongs(@Param("numSongs") int numSongs);
 
