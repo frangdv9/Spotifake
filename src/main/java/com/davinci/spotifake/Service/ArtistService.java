@@ -8,7 +8,6 @@ import com.davinci.spotifake.Service.ErrorHandler.ExceptionSpotifake;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -76,8 +75,4 @@ public class ArtistService {
             throw new BadRequestException("Los campos biography y genre son requeridos.");
         }
     }
-
-
-
-
 }

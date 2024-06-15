@@ -12,19 +12,19 @@ import java.util.List;
 
 public class ArtistDTO {
 
-    private Genre genre;
-    private Nationality nationality;
-    private Date birthDate;
-    private Date deathDate;
-    private Instrument instrument;
+    private String genre;
+    private String nationality;
+    private String birthDate;
+    private String deathDate;
+    private String instrument;
     private String biography;
-    private List<Disk> disks;
+    private List<DiskDTO> disks;
 
     ArtistDTO(){
 
     }
 
-    public ArtistDTO(Genre genre, Nationality nationality, Date birthDate, Date deathDate, Instrument instrument, String biography, List<Disk> disks) {
+    public ArtistDTO(String genre, String nationality, String birthDate, String deathDate, String instrument, String biography, List<DiskDTO> disks) {
         this.genre = genre;
         this.nationality = nationality;
         this.birthDate = birthDate;
@@ -34,43 +34,43 @@ public class ArtistDTO {
         this.disks = disks;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
-    public Nationality getNationality() {
+    public String getNationality() {
         return nationality;
     }
 
-    public void setNationality(Nationality nationality) {
+    public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
-    public Date getDeathDate() {
+    public String getDeathDate() {
         return deathDate;
     }
 
-    public void setDeathDate(Date deathDate) {
+    public void setDeathDate(String deathDate) {
         this.deathDate = deathDate;
     }
 
-    public Instrument getInstrument() {
+    public String getInstrument() {
         return instrument;
     }
 
-    public void setInstrument(Instrument instrument) {
+    public void setInstrument(String instrument) {
         this.instrument = instrument;
     }
 
@@ -82,11 +82,11 @@ public class ArtistDTO {
         this.biography = biography;
     }
 
-    public List<Disk> getDisks() {
+    public List<DiskDTO> getDisks() {
         return disks;
     }
 
-    public void setDisks(List<Disk> disks) {
+    public void setDisks(List<DiskDTO> disks) {
         this.disks = disks;
     }
 }
