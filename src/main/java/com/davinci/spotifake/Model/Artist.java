@@ -13,6 +13,8 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     private Genre genre;
 
     private Nationality nationality;
