@@ -1,6 +1,7 @@
 package com.davinci.spotifake.Service;
 
 import com.davinci.spotifake.Model.Artist;
+import com.davinci.spotifake.Model.DTOs.ArtistDTO;
 import com.davinci.spotifake.Model.Genre;
 import com.davinci.spotifake.Model.Instrument;
 import com.davinci.spotifake.Model.Nationality;
@@ -10,8 +11,13 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtistService {
@@ -23,8 +29,9 @@ public class ArtistService {
         this.repository = repository;
     }
 
-    public Artist createArtist(Artist artist) throws Exception {
-        validateArtist(artist);
+    public Artist createArtist(ArtistDTO artistDTO) throws Exception {
+        validateArtistDTO(artistDTO);
+        Artist artist = convertToArtist(artistDTO);
         return repository.save(artist);
     }
 
@@ -59,9 +66,11 @@ public class ArtistService {
         return repository.findByNationality(nationality);
     }
 
-    public List<Artist> findArtistsByInstrument(String instrumentStr) throws BadRequestException {
-        Instrument instrument = parseInstrument(instrumentStr);
-        return repository.findByInstrument(instrument);
+    public List<Artist> findArtistsByInstrument(List<String> instrumentStrs) throws BadRequestException {
+        List<Instrument> instruments = instrumentStrs.stream()
+                .map(this::parseInstrument)
+                .collect(Collectors.toList());
+        return repository.findByInstrumentIn(instruments);
     }
 
     public List<Artist> findArtistsByNumSongs(int numSongs) {
@@ -100,9 +109,47 @@ public class ArtistService {
         }
     }
 
-    private void validateArtist(Artist artist) throws Exception {
-        if (artist == null || artist.getBiography() == null || artist.getGenre() == null) {
+    private void validateArtistDTO(ArtistDTO artistDTO) throws Exception {
+        if (artistDTO == null || artistDTO.getBiography() == null || artistDTO.getGenre() == null) {
             throw new BadRequestException("Los campos biography y genre son requeridos.");
+        }
+        parseDate(artistDTO.getBirthDate(), "yyyy-MM-dd", "La fecha de nacimiento proporcionada no es válida.");
+        if (artistDTO.getDeathDate() != null) {
+            parseDate(artistDTO.getDeathDate(), "yyyy-MM-dd", "La fecha de fallecimiento proporcionada no es válida.");
+        }
+    }
+
+    private void parseDate(String dateStr, String format, String errorMessage) throws BadRequestException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setLenient(false);
+        try {
+            Date date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            throw new BadRequestException(errorMessage);
+        }
+    }
+
+    private Artist convertToArtist(ArtistDTO artistDTO) throws BadRequestException {
+        Artist artist = new Artist();
+        artist.setName(artistDTO.getName());
+        artist.setBiography(artistDTO.getBiography());
+        artist.setGenre(parseGenre(artistDTO.getGenre()));
+        artist.setNationality(parseNationality(artistDTO.getNationality()));
+        artist.setInstrument(parseInstrument(artistDTO.getInstrument()));
+        artist.setBirthDate(parseDate(artistDTO.getBirthDate(), "yyyy-MM-dd"));
+        if (artistDTO.getDeathDate() != null) {
+            artist.setDeathDate(parseDate(artistDTO.getDeathDate(), "yyyy-MM-dd"));
+        }
+        return artist;
+    }
+
+    private Date parseDate(String dateStr, String format) throws BadRequestException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setLenient(false);
+        try {
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            throw new BadRequestException("La fecha proporcionada no es válida.");
         }
     }
 }
