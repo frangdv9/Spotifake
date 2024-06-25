@@ -1,7 +1,9 @@
 package com.davinci.spotifake.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -13,9 +15,17 @@ public class Disk {
     private Long id;
     private String name;
     private Date releaseDate;
+
+    @ManyToOne()
+    @JsonIgnore
+    private Artist artist;
     @OneToMany(mappedBy = "disk", cascade = CascadeType.ALL)
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
     private Genre genre;
+
+
 
     public Disk(){
         

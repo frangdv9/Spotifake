@@ -77,7 +77,7 @@ public class DiskService {
             throw new BadRequestException("El género del disco no puede ser nulo o vacío.");
         }
 
-        return repository.findByGenresContaining(genre);
+        return repository.findByGenreContaining(genre);
     }
 
     public List<Disk> findDisksByReleaseDate(Date releaseDate) throws Exception {

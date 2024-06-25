@@ -11,7 +11,7 @@ public interface DiskRepository extends JpaRepository<Disk, Long> {
 
     Disk findById(long id);
     List<Disk> findByNameContaining(String name);
-    List<Disk> findByGenresContaining(String genre);
+    List<Disk> findByGenreContaining(String genre);
     List<Disk> findByReleaseDate(Date releaseDate);
     List<Disk> findAll();
 }

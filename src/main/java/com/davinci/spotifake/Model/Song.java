@@ -15,7 +15,10 @@ public class Song {
     private String lyrics;
 
     private Genre genre;
-
+    @ManyToOne
+    @JoinColumn(name = "disk_id")  // Name of the foreign key column in song table
+    private Disk disk;
+    
     public Song(){}
 
     public Song(String name, String lyrics, Genre genre) {
