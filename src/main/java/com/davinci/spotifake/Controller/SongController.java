@@ -55,5 +55,16 @@ public class SongController {
         return !foundSongs.isEmpty() ? new ResponseEntity<>(foundSongs, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Song>> findAllSongs() {
+        try {
+            List<Song> songs = songService.findAllSongs();
+            return !songs.isEmpty() ? new ResponseEntity<>(songs, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 
 }

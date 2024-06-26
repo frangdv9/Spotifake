@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/artist")
+@RequestMapping("/artists")
 public class ArtistController {
 
     @Autowired
