@@ -33,7 +33,7 @@ public class DiskService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Uno o más géneros proporcionados no son válidos.");
         }
-        List<Disk> existingDisks = repository.findByNameContaining(newDisk.getName());
+        List<Disk> existingDisks = repository.findByName(newDisk.getName());
         if (!existingDisks.isEmpty()) {
             throw new BadRequestException("Ya existe un disco con el mismo nombre.");
         }
@@ -69,7 +69,7 @@ public class DiskService {
             throw new BadRequestException("El nombre del disco no puede ser nulo o vacío.");
         }
 
-        return repository.findByNameContaining(name);
+        return repository.findByName(name);
     }
 
     public List<Disk> findDisksByGenre(String genre) throws Exception {
@@ -77,7 +77,7 @@ public class DiskService {
             throw new BadRequestException("El género del disco no puede ser nulo o vacío.");
         }
 
-        return repository.findByGenreContaining(genre);
+        return repository.findByGenre(genre);
     }
 
     public List<Disk> findDisksByReleaseDate(Date releaseDate) throws Exception {

@@ -10,8 +10,8 @@ import java.util.List;
 public interface DiskRepository extends JpaRepository<Disk, Long> {
 
     Disk findById(long id);
-    List<Disk> findByNameContaining(String name);
-    List<Disk> findByGenreContaining(String genre);
+    List<Disk> findByName(String name);
+    List<Disk> findByGenre(String genre);
     List<Disk> findByReleaseDate(Date releaseDate);
     List<Disk> findAll();
 }
