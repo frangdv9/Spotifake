@@ -1,8 +1,10 @@
 package com.davinci.spotifake.Service;
 
+import com.davinci.spotifake.Model.ArtistDisk;
 import com.davinci.spotifake.Model.Disk;
 import com.davinci.spotifake.Model.DTOs.DiskDTO;
 import com.davinci.spotifake.Model.Genre;
+import com.davinci.spotifake.Repository.ArtistRepository;
 import com.davinci.spotifake.Repository.DiskRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,14 @@ import java.util.Optional;
 @Service
 public class DiskService {
 
-    private final DiskRepository repository;
+    private DiskRepository repository;
+    private ArtistRepository artistRepository;
+
 
     @Autowired
-    public DiskService(DiskRepository repository) {
+    public DiskService(DiskRepository repository , ArtistRepository artistRepository) {
         this.repository = repository;
+        this.artistRepository = artistRepository;
     }
 
     public Disk createDisk(DiskDTO newDisk) throws Exception {
@@ -33,14 +38,23 @@ public class DiskService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Uno o más géneros proporcionados no son válidos.");
         }
+        try{
+            Long.parseLong(newDisk.getArtistId());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("El id Artista proporcionado no es válido.");
+        }
         List<Disk> existingDisks = repository.findByName(newDisk.getName());
         if (!existingDisks.isEmpty()) {
             throw new BadRequestException("Ya existe un disco con el mismo nombre.");
+        }
+        if (!artistRepository.existsById(Long.parseLong(newDisk.getArtistId()))) {
+            throw new BadRequestException("No existe un artista con ese id");
         }
         Disk disk = new Disk();
         disk.setName(newDisk.getName());
         disk.setReleaseDate(newDisk.getReleaseDate());
         disk.setGenre(genre);
+        disk.setArtist(artistRepository.getById(Long.parseLong(newDisk.getArtistId())));
 
         return repository.save(disk);
     }

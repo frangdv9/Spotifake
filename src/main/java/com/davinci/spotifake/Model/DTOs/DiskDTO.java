@@ -13,14 +13,25 @@ public class DiskDTO {
 
     private List<SongDTO> songs;
 
+    private String artistId;
+
     public DiskDTO() {
     }
 
-    public DiskDTO(String name, Date releaseDate, String genre, List<SongDTO> songs) {
+    public DiskDTO(String name, Date releaseDate, String genre, List<SongDTO> songs, String artistId) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.genre = genre;
         this.songs = songs;
+        this.artistId = artistId;
+    }
+
+    public String getArtistId() {
+        return artistId;
+    }
+
+    public void setArtistId(String artistId) {
+        this.artistId = artistId;
     }
 
     public String getName() {

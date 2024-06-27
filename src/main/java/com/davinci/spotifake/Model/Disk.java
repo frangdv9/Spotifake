@@ -39,6 +39,14 @@ public class Disk {
         this.genre = genre;
     }
 
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
     public Long getId() {
         return id;
     }
