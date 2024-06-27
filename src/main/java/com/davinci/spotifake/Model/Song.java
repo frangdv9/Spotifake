@@ -1,5 +1,6 @@
 package com.davinci.spotifake.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,10 +17,23 @@ public class Song {
 
     private Genre genre;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "disk_id")  // Name of the foreign key column in song table
     private Disk disk;
     
     public Song(){}
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public Disk getDisk() {
+        return disk;
+    }
+
+    public void setDisk(Disk disk) {
+        this.disk = disk;
+    }
 
     public Song(String name, String lyrics, Genre genre) {
         this.name = name;

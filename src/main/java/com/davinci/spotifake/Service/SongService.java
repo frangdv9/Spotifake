@@ -3,6 +3,7 @@ package com.davinci.spotifake.Service;
 import com.davinci.spotifake.Model.DTOs.SongDTO;
 import com.davinci.spotifake.Model.Genre;
 import com.davinci.spotifake.Model.Song;
+import com.davinci.spotifake.Repository.DiskRepository;
 import com.davinci.spotifake.Repository.SongRepository;
 import com.davinci.spotifake.Service.ErrorHandler.ExceptionSpotifake;
 import org.apache.coyote.BadRequestException;
@@ -15,11 +16,16 @@ import java.util.Optional;
 
 @Service
 public class SongService {
-    @Autowired
-    private final SongRepository repository;
 
-    public SongService(SongRepository repository) {
+    private SongRepository repository;
+
+    private DiskRepository diskRepository;
+
+    @Autowired
+    public SongService(SongRepository repository, DiskRepository diskRepository) {
+
         this.repository = repository;
+        this.diskRepository = diskRepository;
     }
 
     public SongService() {
@@ -35,6 +41,11 @@ public class SongService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("El género proporcionado no es válido.");
         }
+        try {
+            Long.parseLong(newSong.getDiskId());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("El id del disco proporcionado no es válido.");
+        }
         List<Song> existingSongs = repository.findByNameIgnoreCase(newSong.getName());
         if (!existingSongs.isEmpty()) {
             throw new BadRequestException("Ya existe una canción con el mismo nombre.");
@@ -43,7 +54,7 @@ public class SongService {
         song.setLyrics(newSong.getLyrics());
         song.setName(newSong.getName());
         song.setGenre(Genre.valueOf(newSong.getGenre().toUpperCase()));
-
+        song.setDisk(diskRepository.getById(Long.parseLong(newSong.getDiskId())));
         return repository.save(song);
     }
 

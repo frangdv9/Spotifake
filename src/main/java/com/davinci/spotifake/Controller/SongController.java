@@ -26,9 +26,11 @@ public class SongController {
         String name = requestBody.get("name").toString();
         String lyrics = requestBody.get("lyrics").toString();
         String genre = requestBody.get("genre").toString().toUpperCase();
+        String diskId = requestBody.get("diskId").toString().toUpperCase();
+
 
         try {
-            Song createdSong = songService.createSong(new SongDTO(name,lyrics,genre));
+            Song createdSong = songService.createSong(new SongDTO(name,lyrics,genre,diskId));
             return new ResponseEntity<>(createdSong, HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

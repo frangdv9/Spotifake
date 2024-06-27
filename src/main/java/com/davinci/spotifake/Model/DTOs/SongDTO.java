@@ -8,6 +8,7 @@ public class SongDTO {
     private String lyrics;
 
     private String genre;
+    private String diskId;
 
     public SongDTO(){
 
@@ -15,11 +16,11 @@ public class SongDTO {
 
 
 
-    public SongDTO( String name, String lyrics, String genre) {
-
+    public SongDTO( String name, String lyrics, String genre,String diskId) {
         this.name = name;
         this.lyrics = lyrics;
         this.genre = genre;
+        this.diskId = diskId;
     }
 
 
@@ -48,7 +49,14 @@ public class SongDTO {
         return genre;
     }
 
+    public String getDiskId() {
+        return diskId;
     }
+
+    public void setDiskId(String diskId) {
+        this.diskId = diskId;
+    }
+}
 
 
 

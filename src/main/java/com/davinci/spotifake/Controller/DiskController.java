@@ -33,7 +33,7 @@ public class DiskController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<?> getDiskById(@PathVariable("id") long id) {
         try {
             return ResponseEntity.ok(diskService.findDiskById(id)
