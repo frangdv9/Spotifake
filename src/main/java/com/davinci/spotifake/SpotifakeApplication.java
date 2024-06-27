@@ -10,6 +10,4 @@ public class SpotifakeApplication {
 		SpringApplication.run(SpotifakeApplication.class, args);
 	}
 
-
- hola franquito
 }
