@@ -31,5 +31,13 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     @Query("SELECT a FROM Artist a WHERE a.deathDate IS NOT NULL")
     List<Artist> findDeceasedArtists();
 
+    @Query(value = "SELECT * FROM artist WHERE YEAR(CURRENT_DATE()) - YEAR(birth_date) = :age", nativeQuery = true)
+    List<Artist> findByAge(@Param("age") int age);
+
+
+
+
+
+
 
 }
