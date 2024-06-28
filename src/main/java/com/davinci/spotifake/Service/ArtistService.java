@@ -159,20 +159,6 @@ public class ArtistService {
         }
     }
     public List<Artist> findArtistsByAge(int age) {
-        LocalDate today = LocalDate.now();
-        LocalDate birthDateLimit = today.minusYears(age);
-
-        List<Artist> allArtists = repository.findAll();
-        List<Artist> artistsByAge = new ArrayList<>();
-
-        for (Artist artist : allArtists) {
-            LocalDate artistBirthDate = artist.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            if (artistBirthDate.isBefore(birthDateLimit) || artistBirthDate.equals(birthDateLimit)) {
-                artistsByAge.add(artist);
-            }
-        }
-
-        return artistsByAge;
+        return repository.findByAge(age);
     }
 }
