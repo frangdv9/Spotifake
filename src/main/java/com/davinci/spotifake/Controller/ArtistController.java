@@ -28,9 +28,10 @@ public class ArtistController {
             String genre = requestBody.get("genre").toString();
             String nationality = requestBody.get("nationality").toString();
             String birthDate = requestBody.get("birthDate").toString();
-            String deathDate = requestBody.get("deathDate").toString();
             String instrument = requestBody.get("instrument").toString();
             String biography = requestBody.get("biography").toString();
+
+            String deathDate = requestBody.get("deathDate") != null ? requestBody.get("deathDate").toString() : null;
 
             ArtistDTO artistDTO = new ArtistDTO(name, genre, nationality, birthDate, deathDate, instrument, biography);
 
@@ -41,6 +42,7 @@ public class ArtistController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/find/{id}")
     public ResponseEntity<Artist> searchArtistById(@PathVariable int id) throws Exception {
         Optional<Artist> artistFound = artistService.findArtistById(id);
