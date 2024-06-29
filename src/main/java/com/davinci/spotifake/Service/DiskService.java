@@ -43,10 +43,10 @@ public class DiskService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("El id Artista proporcionado no es válido.");
         }
-        List<Disk> existingDisks = repository.findByName(newDisk.getName());
-        if (!existingDisks.isEmpty()) {
-            throw new BadRequestException("Ya existe un disco con el mismo nombre.");
-        }
+        //List<Disk> existingDisks = repository.findByName(newDisk.getName());
+        //if (!existingDisks.isEmpty()) {
+        //    throw new BadRequestException("Ya existe un disco con el mismo nombre.");
+        //}
         if (!artistRepository.existsById(Long.parseLong(newDisk.getArtistId()))) {
             throw new BadRequestException("No existe un artista con ese id");
         }
