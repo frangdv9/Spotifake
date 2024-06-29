@@ -1,5 +1,7 @@
 package com.davinci.spotifake.Model.DTOs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +9,7 @@ public class DiskDTO {
 
     private String name;
 
-    private Date releaseDate;
+    private String releaseDate;
 
     private String genre;
 
@@ -18,7 +20,7 @@ public class DiskDTO {
     public DiskDTO() {
     }
 
-    public DiskDTO(String name, Date releaseDate, String genre, List<SongDTO> songs, String artistId) {
+    public DiskDTO(String name, String releaseDate, String genre, List<SongDTO> songs, String artistId) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.genre = genre;
@@ -42,11 +44,14 @@ public class DiskDTO {
         this.name = name;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
-
-    public void setReleaseDate(Date releaseDate) {
+    public Date getFormattedReleaseDate() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.parse(this.releaseDate);
+    }
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

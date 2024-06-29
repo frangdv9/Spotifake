@@ -4,7 +4,6 @@ import com.davinci.spotifake.Model.Disk;
 import com.davinci.spotifake.Model.DTOs.DiskDTO;
 import com.davinci.spotifake.Service.DiskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,17 +77,15 @@ public class DiskController {
 
             List<Disk> disks = diskService.findDisksByReleaseDate(releaseDate);
             if (disks.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No se encontraron discos para la fecha especificada: " + releaseDateStr);
+                return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(disks);
         } catch (ParseException pe) {
-            return ResponseEntity.badRequest().body("Formato de fecha inválido. Use yyyy-MM-dd.");
+            return ResponseEntity.badRequest().body("Invalid date format. Use yyyy-MM-dd.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
 
     @GetMapping("/findAll")

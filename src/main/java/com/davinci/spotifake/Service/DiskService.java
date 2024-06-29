@@ -10,6 +10,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,33 +32,49 @@ public class DiskService {
         if (newDisk == null || newDisk.getName() == null || newDisk.getReleaseDate() == null || newDisk.getGenre() == null) {
             throw new BadRequestException("Los campos nombre, fecha de lanzamiento y géneros son requeridos.");
         }
+
         Genre genre;
         try {
             genre = Genre.valueOf(newDisk.getGenre().toUpperCase());
-
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Uno o más géneros proporcionados no son válidos.");
         }
-        try{
+
+        try {
             Long.parseLong(newDisk.getArtistId());
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("El id Artista proporcionado no es válido.");
         }
+
+        // Validar releaseDate usando el método getFormattedReleaseDate() de DiskDTO
+        Date releaseDate;
+        try {
+            releaseDate = newDisk.getFormattedReleaseDate();
+        } catch (ParseException e) {
+            throw new BadRequestException("Formato de fecha de lanzamiento inválido. Utilice yyyy-MM-dd.");
+        }
+
+        // Verificar si ya existe un disco con el mismo nombre
         //List<Disk> existingDisks = repository.findByName(newDisk.getName());
         //if (!existingDisks.isEmpty()) {
         //    throw new BadRequestException("Ya existe un disco con el mismo nombre.");
         //}
+
+        // Verificar si existe un artista con el ID proporcionado
         if (!artistRepository.existsById(Long.parseLong(newDisk.getArtistId()))) {
-            throw new BadRequestException("No existe un artista con ese id");
+            throw new BadRequestException("No existe un artista con ese id.");
         }
+
+        // Crear el objeto Disk y guardarlo en la base de datos
         Disk disk = new Disk();
         disk.setName(newDisk.getName());
-        disk.setReleaseDate(newDisk.getReleaseDate());
+        disk.setReleaseDate(releaseDate);
         disk.setGenre(genre);
         disk.setArtist(artistRepository.getById(Long.parseLong(newDisk.getArtistId())));
 
         return repository.save(disk);
     }
+
 
     public void updateDisk(Disk disk) throws Exception {
         if (disk == null) {
