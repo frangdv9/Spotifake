@@ -75,17 +75,18 @@ public class DiskController {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date releaseDate = dateFormat.parse(releaseDateStr);
 
-            List<Disk> discs = diskService.findDisksByReleaseDate(releaseDate);
-            if (discs.isEmpty()) {
+            List<Disk> disks = diskService.findDisksByReleaseDate(releaseDate);
+            if (disks.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(discs);
+            return ResponseEntity.ok(disks);
         } catch (ParseException pe) {
             return ResponseEntity.badRequest().body("Invalid date format. Use yyyy-MM-dd.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @GetMapping("/findAll")
     public ResponseEntity<?> getAllDisks() {

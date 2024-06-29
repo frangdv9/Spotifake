@@ -83,24 +83,27 @@ public class DiskService {
             throw new BadRequestException("El nombre del disco no puede ser nulo o vacío.");
         }
 
-        return repository.findByName(name);
+        return repository.findByNameContainingIgnoreCase(name);
     }
-
     public List<Disk> findDisksByGenre(String genre) throws Exception {
         if (genre == null || genre.isEmpty()) {
             throw new BadRequestException("El género del disco no puede ser nulo o vacío.");
         }
-
-        return repository.findByGenre(genre);
+        try {
+            Genre genreEnum = Genre.valueOf(genre.toUpperCase());
+            return repository.findByGenre(genreEnum);
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("El género del disco no es válido");
+        }
     }
 
     public List<Disk> findDisksByReleaseDate(Date releaseDate) throws Exception {
         if (releaseDate == null) {
             throw new BadRequestException("La fecha de lanzamiento del disco no puede ser nula.");
         }
-
         return repository.findByReleaseDate(releaseDate);
     }
+
 
     public List<Disk> getAllDisks() {
         return repository.findAll();
