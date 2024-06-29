@@ -14,4 +14,5 @@ public interface DiskRepository extends JpaRepository<Disk, Long> {
     List<Disk> findByGenre(String genre);
     List<Disk> findByReleaseDate(Date releaseDate);
     List<Disk> findAll();
+
 }

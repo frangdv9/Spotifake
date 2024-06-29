@@ -46,7 +46,7 @@ public class SongService {
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("El id del disco proporcionado no es válido.");
         }
-        List<Song> existingSongs = repository.findByNameIgnoreCase(newSong.getName());
+        List<Song> existingSongs = repository.findByNameContainingIgnoreCase(newSong.getName());
         if (!existingSongs.isEmpty()) {
             throw new BadRequestException("Ya existe una canción con el mismo nombre.");
         }
@@ -82,7 +82,7 @@ public class SongService {
             throw new BadRequestException("El nombre de la canción no puede ser nulo o vacío.");
         }
 
-        return repository.findByNameIgnoreCase(name);
+        return repository.findByNameContainingIgnoreCase(name);
     }
 
     public List<Song> findSongsByLyrics(String lyrics) throws Exception{

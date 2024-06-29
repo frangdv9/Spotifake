@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
-    List<Song> findByNameIgnoreCase(String name);
+    List<Song> findByNameContainingIgnoreCase(String name);
     List<Song> findByLyricsContainingIgnoreCase(String lyrics);
 }
