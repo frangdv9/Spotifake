@@ -4,6 +4,7 @@ import com.davinci.spotifake.Model.Disk;
 import com.davinci.spotifake.Model.DTOs.DiskDTO;
 import com.davinci.spotifake.Service.DiskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,11 +28,12 @@ public class DiskController {
     public ResponseEntity<?> createDisk(@RequestBody DiskDTO newDisk) {
         try {
             Disk createdDisk = diskService.createDisk(newDisk);
-            return ResponseEntity.ok(createdDisk);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdDisk);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> getDiskById(@PathVariable("id") long id) {
