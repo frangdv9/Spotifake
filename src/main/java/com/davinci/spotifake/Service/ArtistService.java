@@ -159,6 +159,6 @@ public class ArtistService {
         }
     }
     public List<Artist> findArtistsByAge(int age) {
-        return repository.findByAge(age);
+        return repository.findByAgeIncludingDeceased(age);
     }
 }
